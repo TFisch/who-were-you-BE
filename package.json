@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "./node_modules/eslint/bin/eslint.js ./**/*.js",
-    "lint": "eslint"
+    "eslint": "./node_modules/eslint/bin/eslint.js ./**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +16,8 @@
     "eslint-plugin-import": "^2.14.0"
   },
   "dependencies": {
-    "eslint-config-airbnb": "^17.1.0"
+    "eslint-config-airbnb": "^17.1.0",
+    "knex": "^0.15.2",
+    "pg": "^7.5.0"
   }
 }
