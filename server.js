@@ -21,11 +21,11 @@ app.get('/api/v1/deaths', (request, response) => {
 
 app.post('/api/v1/deaths', (request, response) => {
   const deathData = request.body;
-  for (const requiredParameter of ['name']) {
+  for (const requiredParameter of ['person_name']['day_id']) {
     if (!deathData[requiredParameter]) {
       return response
         .status(422)
-        .send({ error: `Expected format: {  }. You're missing a "${requiredParameter}" property.` });
+        .send({ error: `You're missing a "${requiredParameter}" property.` });
     }
   }
 
@@ -38,6 +38,7 @@ app.post('/api/v1/deaths', (request, response) => {
     });
 });
 
+
 app.get('/api/v1/dates', (request, response) => {
   database('dates').select()
     .then((dates) => {
@@ -47,6 +48,26 @@ app.get('/api/v1/dates', (request, response) => {
       response.status(500).json({ error });
     });
 });
+
+app.post('/api/v1/dates', (request, response) => {
+  const dateData = request.body;
+  for (const requiredParameter of ['day']['astrology_sign']) {
+    if (!dateData[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `You're missing a "${requiredParameter}" property.` });
+    }
+  }
+
+  database('deaths').insert(dateData, 'id')
+    .then((date) => {
+      response.status(201).json({ id: date[0] });
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
 
 app.listen(app.get('port'), () => {
   console.log(`Who Are You is running on port ${app.get('port')}`);
