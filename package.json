@@ -18,6 +18,7 @@
   "dependencies": {
     "eslint-config-airbnb": "^17.1.0",
     "knex": "^0.15.2",
+    "nightmare": "^3.0.1",
     "pg": "^7.5.0"
   }
 }
