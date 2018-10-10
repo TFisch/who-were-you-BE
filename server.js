@@ -23,7 +23,7 @@ app.get('/api/v1/deaths', (request, response) => {
 
 app.post('/api/v1/deaths', (request, response) => {
   const deathData = request.body;
-  for (const requiredParameter of ['person_name']['day_id']) {
+  for (const requiredParameter of ['person_name']['day']['year']) {
     if (!deathData[requiredParameter]) {
       return response
         .status(422)
