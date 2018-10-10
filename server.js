@@ -19,6 +19,16 @@ app.get('/api/v1/deaths', (request, response) => {
     });
 });
 
+app.get('/api/v1/dates', (request, response) => {
+  database('dates').select()
+    .then((dates) => {
+      response.status(200).json(dates);
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
 app.listen(app.get('port'), () => {
   console.log(`Who Are You is running on port ${app.get('port')}`);
 });
