@@ -1,24 +1,23 @@
-
 exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('deaths', function (table) {
-      table.increments('id').primary()
-      table.string('name')
-      table.string('year');
-    }),
-    knex.schema.createTable('dates', function (table) {
+    knex.schema.createTable('dates', (table) => {
       table.increments('id').primary();
-      table.integer('death_id').unsigned()
-      table.foreign('death_id')
-        .references('deaths.id')
-    })
-  ])
+      table.string('day');
+      table.string('astrology_sign');
+
+      table.timestamps(true, true);
+    }),
+    knex.schema.createTable('deaths', (table) => {
+      table.increments('id').primary();
+      table.string('person_name');
+      table.integer('day_id').unsigned();
+      table.foreign('day_id').references('dates.id');
+
+      table.timestamps(true, true);
+    }),
+  ]);
 };
 
 exports.down = function (knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTable('deaths'),
-    knex.schema.dropTable('dates')
-  ]);
-
+  return Promise.all([knex.schema.dropTable('deaths'), knex.schema.dropTable('dates')]);
 };
