@@ -1,1 +1,0 @@
-import allData from ('./alldata')
