@@ -19,6 +19,25 @@ app.get('/api/v1/deaths', (request, response) => {
     });
 });
 
+app.post('/api/v1/deaths', (request, response) => {
+  const deathData = request.body;
+  for (const requiredParameter of ['name']) {
+    if (!deathData[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: {  }. You're missing a "${requiredParameter}" property.` });
+    }
+  }
+
+  database('deaths').insert(deathData, 'id')
+    .then((death) => {
+      response.status(201).json({ id: death[0] });
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
 app.get('/api/v1/dates', (request, response) => {
   database('dates').select()
     .then((dates) => {
