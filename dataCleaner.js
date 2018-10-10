@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const januaryData = require('./webscraped-data/januaryData.json');
 const februaryData = require('./webscraped-data/februaryData.json');
 const marchData = require('./webscraped-data/marchData.json');
@@ -11,21 +13,48 @@ const octoberData = require('./webscraped-data/octoberData.json');
 const novemberData = require('./webscraped-data/novemberData.json');
 const decemberData = require('./webscraped-data/decemberData.json');
 
-const cleanData = monthArray => monthArray.map(dayArray => dayArray.map((people) => {
-  const indexOfSpace = people.deadPerson.indexOf(' ');
-  const indexOfComma = people.deadPerson.indexOf(', ');
-  const frontSlicedPerson = people.deadPerson.slice(indexOfSpace + 1);
-  const sliceTheEndOfPerson = frontSlicedPerson.slice(0, indexOfComma);
-  const slicedIndexComma = sliceTheEndOfPerson.indexOf(',');
-  const nameSlicedAgain = sliceTheEndOfPerson.slice(0, slicedIndexComma);
-  const cleanPersonData = {
-    deadPerson: nameSlicedAgain,
-    deathDay: people.deathDay,
-    deathYear: people.deathYear,
-  };
-  return cleanPersonData;
-}));
+const arrayOfMonths = [
+  januaryData,
+  februaryData,
+  marchData,
+  aprilData,
+  mayData,
+  juneData,
+  julyData,
+  augustData,
+  septemberData,
+  octoberData,
+  novemberData,
+  decemberData
+];
+
+const cleanData = monthArray =>
+  monthArray.map(dayArray =>
+    dayArray.map(people => {
+      const indexOfSpace = people.deadPerson.indexOf(' ');
+      const indexOfComma = people.deadPerson.indexOf(', ');
+      const frontSlicedPerson = people.deadPerson.slice(indexOfSpace + 1);
+      const sliceTheEndOfPerson = frontSlicedPerson.slice(0, indexOfComma);
+      const slicedIndexComma = sliceTheEndOfPerson.indexOf(',');
+      const nameSlicedAgain = sliceTheEndOfPerson.slice(0, slicedIndexComma);
+      const cleanPersonData = {
+        deadPerson: nameSlicedAgain,
+        deathDay: people.deathDay,
+        deathYear: people.deathYear
+      };
+
+      return fs.appendFile(
+        'allData.js',
+        JSON.stringify(cleanPersonData),
+        () => {
+          console.log('Saved!');
+        }
+      );
+
+      // return cleanPersonData;
+    })
+  );
 
 const cleanMonths = monthData => monthData.map(month => cleanData(month));
 
-console.log(arrayOfMonthData);
+cleanMonths(arrayOfMonths);
