@@ -14,6 +14,9 @@ describe('API Routes', () => {
         .end((err, response) => {
           response.should.have.status(200);
           response.should.be.json;
+          response.body.should.have.property('person_name');
+          response.body.should.have.property('day');
+          response.body.should.have.property('year');
           done();
         });
     });
