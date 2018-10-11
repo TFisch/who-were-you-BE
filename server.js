@@ -23,6 +23,22 @@ app.get('/api/v1/deaths', (request, response) => {
     });
 });
 
+app.get('/api/v1/deaths/:id', (request, response) => {
+  database('deaths').where('id', request.params.id).select()
+    .then(deaths => {
+      if (deaths.length) {
+        response.status(200).json(deaths);
+      } else {
+        response.status(404).json({
+          error: `Could not find project with id ${request.params.id}`
+        })
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
 app.post('/api/v1/deaths', (request, response) => {
   const deathData = request.body;
   for (const requiredParameter of ['person_name']['day']['year']) {
