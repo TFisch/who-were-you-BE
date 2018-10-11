@@ -21,6 +21,20 @@ describe('API Routes', () => {
         });
     });
   });
+
+  describe('GET /api/v1/dates', () => {
+    it('should return all of the dates', done => {
+      chai.request(server)
+        .get('/api/v1/dates')
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.have.property('day');
+          response.body.should.have.property('astrology_sign');
+          done();
+        });
+    });
+  });
 })
 
 
