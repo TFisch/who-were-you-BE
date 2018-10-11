@@ -39,8 +39,8 @@ const cleanData = monthArray =>
       const sliceTheEndOfPerson = frontSlicedPerson.slice(0, indexOfComma);
       const slicedIndexComma = sliceTheEndOfPerson.indexOf(',');
       const nameSlicedAgain = sliceTheEndOfPerson.slice(0, slicedIndexComma);
-      const indexOfParens = nameSlicedAgain.indexOf(' (')
-      const nameSlicedAThirdTime = nameSlicedAgain.slice(0, indexOfParens);
+      // const indexOfParens = nameSlicedAgain.indexOf(' (')
+      // const nameSlicedAThirdTime = nameSlicedAgain.slice(0, indexOfParens);
 
 
       const indexOfSpaceDay = people.deathDay.indexOf(' ');
@@ -146,22 +146,22 @@ const cleanData = monthArray =>
       ) {
         astroSign = 'Sagittarius';
       }
-      console.log(nameSlicedAThirdTime)
+      
       const cleanPersonData = {
-        deadPerson: nameSlicedAThirdTime,
+        deadPerson: nameSlicedAgain,
         deathDay: people.deathDay,
         deathYear: people.deathYear,
         astroSign
       };
-      allData.push(cleanPersonData);
-
-      // return;
+      if(cleanPersonData.deathYear > 1969 && cleanPersonData.deathYear < 1997 && (cleanPersonData.deadPerson.length < 18)) {
+        allData.push(cleanPersonData);
+      }
     })
   );
 
 const cleanMonths = monthData => {
   monthData.forEach(month => cleanData(month));
-  fs.appendFile('allData.js', JSON.stringify(allData), () => {
+  fs.appendFile('allDataNew.js', JSON.stringify(allData), () => {
     console.log('Saved!');
   });
 };
