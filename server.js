@@ -72,6 +72,8 @@ app.post('/api/v1/dates', (request, response) => {
     });
 });
 
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log(`Who Are You is running on port ${app.get('port')}`);
 });
+
+module.exports = server;
