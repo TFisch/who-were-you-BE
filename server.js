@@ -5,6 +5,8 @@ const app = express();
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 app.set('port', process.env.PORT || 3000);
 
@@ -72,6 +74,8 @@ app.post('/api/v1/dates', (request, response) => {
     });
 });
 
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log(`Who Are You is running on port ${app.get('port')}`);
 });
+
+module.exports = server;
