@@ -6,7 +6,7 @@ module.exports = {
       directory: './db/migrations'
     },
     seeds: {
-      directory: './seeds'
+      directory: './seeds/dev'
     },
     useNullAsDefault: true
   },
