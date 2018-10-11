@@ -39,6 +39,22 @@ app.get('/api/v1/deaths/:id', (request, response) => {
     })
 })
 
+app.get('/api/v1/users/:id', (request, response) => {
+  database('users').where('id', request.params.id).select()
+    .then(users => {
+      if (users.length) {
+        response.status(200).json(users);
+      } else {
+        response.status(404).json({
+          error: `Could not find project with id ${request.params.id}`
+        })
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error })
+    })
+})
+
 app.post('/api/v1/deaths', (request, response) => {
   const deathData = request.body;
   for (const requiredParameter of ['person_name']['day']['year']) {
