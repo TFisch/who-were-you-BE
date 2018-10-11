@@ -39,9 +39,9 @@ app.get('/api/v1/deaths/:id', (request, response) => {
     })
 })
 
-app.post('/api/v1/deaths', (request, response) => {
-  const deathData = request.body;
-  for (const requiredParameter of ['person_name']['day']['year']) {
+app.post('/api/v1/users', (request, response) => {
+  const userData = request.body;
+  for (const requiredParameter of ['name']['birth_day']['year']) {
     if (!deathData[requiredParameter]) {
       return response
         .status(422)
@@ -49,10 +49,10 @@ app.post('/api/v1/deaths', (request, response) => {
     }
   }
 
-  database('deaths')
-    .insert(deathData, 'id')
-    .then(death => {
-      response.status(201).json({ id: death[0] });
+  database('users')
+    .insert(userData, 'id')
+    .then(user => {
+      response.status(201).json({ id: user[0] });
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -87,25 +87,15 @@ app.get('/api/v1/dates', (request, response) => {
     });
 });
 
-app.post('/api/v1/dates', (request, response) => {
-  const dateData = request.body;
-  for (const requiredParameter of ['day']['astrology_sign']) {
-    if (!dateData[requiredParameter]) {
-      return response
-        .status(422)
-        .send({ error: `You're missing a "${requiredParameter}" property.` });
-    }
-  }
-
-  database('deaths')
-    .insert(dateData, 'id')
-    .then(date => {
-      response.status(201).json({ id: date[0] });
+app.delete('/api/v1/users/:id', (request, response) => {
+  database('users').where({ id: request.params.id }).del()
+    .then(response => {
+      response.status(201).json({ id })
     })
     .catch(error => {
-      response.status(500).json({ error });
-    });
-});
+      response.status(500).json({ error })
+    })
+})
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Who Are You is running on port ${app.get('port')}`);
