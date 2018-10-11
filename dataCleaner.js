@@ -13,6 +13,8 @@ const octoberData = require('./webscraped-data/octoberData.json');
 const novemberData = require('./webscraped-data/novemberData.json');
 const decemberData = require('./webscraped-data/decemberData.json');
 
+let allData = [];
+
 const arrayOfMonths = [
   januaryData,
   februaryData,
@@ -37,10 +39,14 @@ const cleanData = monthArray =>
       const sliceTheEndOfPerson = frontSlicedPerson.slice(0, indexOfComma);
       const slicedIndexComma = sliceTheEndOfPerson.indexOf(',');
       const nameSlicedAgain = sliceTheEndOfPerson.slice(0, slicedIndexComma);
+      const indexOfParens = nameSlicedAgain.indexOf(' (')
+      const nameSlicedAThirdTime = nameSlicedAgain.slice(0, indexOfParens);
+
+
       const indexOfSpaceDay = people.deathDay.indexOf(' ');
       let month = people.deathDay.slice(0, 3);
       let day = people.deathDay.slice(indexOfSpaceDay + 1);
-      let numericDate = 0;
+      // let numericDate = 0;
       let monthNum = 0;
       switch (month) {
         case 'JAN':
@@ -83,81 +89,80 @@ const cleanData = monthArray =>
           return;
       }
       if ((monthNum === 1 && day <= 20) || (monthNum === 12 && day >= 22)) {
-        astroSign = 'capricorn';
+        astroSign = 'Capricorn';
       } else if (
         (monthNum === 1 && day >= 21) ||
         (monthNum === 2 && day <= 18)
       ) {
-        astroSign = 'aquarius';
+        astroSign = 'Aquarius';
       } else if (
         (monthNum === 2 && day >= 19) ||
         (monthNum === 3 && day <= 20)
       ) {
-        astroSign = 'pisces';
+        astroSign = 'Pisces';
       } else if (
         (monthNum === 3 && day >= 21) ||
         (monthNum === 4 && day <= 20)
       ) {
-        astroSign = 'aries';
+        astroSign = 'Aries';
       } else if (
         (monthNum === 4 && day >= 21) ||
         (monthNum === 5 && day <= 20)
       ) {
-        astroSign = 'taurus';
+        astroSign = 'Taurus';
       } else if (
         (monthNum === 5 && day >= 21) ||
         (monthNum === 6 && day <= 20)
       ) {
-        astroSign = 'gemini';
+        astroSign = 'Gemini';
       } else if (
         (monthNum === 6 && day >= 22) ||
         (monthNum === 7 && day <= 22)
       ) {
-        astroSign = 'cancer';
+        astroSign = 'Cancer';
       } else if (
         (monthNum === 7 && day >= 23) ||
         (monthNum === 8 && day <= 23)
       ) {
-        astroSign = 'leo';
+        astroSign = 'Leo';
       } else if (
         (monthNum === 8 && day >= 24) ||
         (monthNum === 9 && day <= 23)
       ) {
-        astroSign = 'virgo';
+        astroSign = 'Virgo';
       } else if (
         (monthNum === 9 && day >= 24) ||
         (monthNum === 10 && day <= 23)
       ) {
-        astroSign = 'libra';
+        astroSign = 'Libra';
       } else if (
         (monthNum === 10 && day >= 24) ||
         (monthNum === 11 && day <= 22)
       ) {
-        astroSign = 'scorpio';
+        astroSign = 'Scorpio';
       } else if (
         (monthNum === 11 && day >= 23) ||
         (monthNum === 12 && day <= 21)
       ) {
-        astroSign = 'sagittarius';
+        astroSign = 'Sagittarius';
       }
+      console.log(nameSlicedAThirdTime)
       const cleanPersonData = {
-        deadPerson: nameSlicedAgain,
+        deadPerson: nameSlicedAThirdTime,
         deathDay: people.deathDay,
         deathYear: people.deathYear,
         astroSign
       };
+      allData.push(cleanPersonData);
 
-      return fs.appendFile(
-        'allData.js',
-        JSON.stringify(cleanPersonData),
-        () => {
-          console.log('Saved!');
-        }
-      );
-      // return cleanPersonData;
+      // return;
     })
   );
 
-const cleanMonths = monthData => monthData.map(month => cleanData(month));
-
+const cleanMonths = monthData => {
+  monthData.forEach(month => cleanData(month));
+  fs.appendFile('allData.js', JSON.stringify(allData), () => {
+    console.log('Saved!');
+  });
+};
 cleanMonths(arrayOfMonths);
