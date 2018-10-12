@@ -29,19 +29,21 @@ const createDate = (knex, date) => {
         day: date.day,
         astrology_sign: date.astrology_sign
       },
-      'id'
+      ['id', 'day']
     )
-    .then(dateId => {
+    .then(day => {
       let deathPromises = [];
 
       deathData.forEach(death => {
-        deathPromises.push(
-          createDeath(knex, {
-            person_name: death.deadPerson,
-            day_id: dateId[0],
-            year: death.deathYear
-          })
-        );
+        if (death.deathDay === day[0].day) {
+          deathPromises.push(
+            createDeath(knex, {
+              person_name: death.deadPerson,
+              day_id: day[0].id,
+              year: death.deathYear
+            })
+          );
+        }
       });
       return Promise.all(deathPromises);
     });
