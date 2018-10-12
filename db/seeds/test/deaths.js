@@ -16,19 +16,22 @@ const deaths = [
     id: 1,
     person_name: 'Jimi Hendrix',
     day_id: 1,
-    year: 1986
+    year: 1986,
+    deletable: true
   },
   {
     id: 2,
     person_name: 'Jim Morrison',
     day_id: 1,
-    year: 1986
+    year: 1986,
+    deletable: false
   },
   {
     id: 3,
     person_name: 'Janis Joplin',
     day_id: 2,
-    year: 1986
+    year: 1986,
+    deletable: true
   }
 ];
 
@@ -36,17 +39,20 @@ const users = [
   {
     name: 'Cody Taft',
     death_id: 1,
-    notes: 'He was the greatest guitar player that ever lived'
+    notes: 'He was the greatest guitar player that ever lived',
+    day_id: 2
   },
   {
     name: 'Tim Fischer',
     death_id: 2,
-    notes: 'He was the greatest poet that ever lived'
+    notes: 'He was the greatest poet that ever lived',
+    day_id: 1
   },
   {
     name: 'Kurt Kurtains',
     death_id: 3,
-    notes: 'She made the greatest curtains that ever lived'
+    notes: 'She made the greatest curtains that ever lived',
+    day_id: 1
   }
 ];
 
