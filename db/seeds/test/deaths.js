@@ -2,12 +2,12 @@ const dates = [
   {
     id: 1,
     day: 'July 17',
-    astology_sign: 'Cancer'
+    astrology_sign: 'Cancer'
   },
   {
     id: 2,
     day: 'July 16',
-    astology_sign: 'Cancer'
+    astrology_sign: 'Cancer'
   }
 ];
 
@@ -57,14 +57,9 @@ exports.seed = (knex, Promise) => {
     .then(() => knex('dates').del())
     .then(() => {
       return Promise.all([
-        knex('dates')
-          .insert(dates)
-          .then(() => {
-            knex('deaths').insert(deaths);
-          })
-          .then(() => {
-            return knex('users').insert(users);
-          })
+        knex('dates').insert(dates),
+        knex('deaths').insert(deaths),
+        knex('users').insert(users)
       ]);
     })
     .then(() => console.log('Seeding complete!'))

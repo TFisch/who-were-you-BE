@@ -5,6 +5,7 @@ const app = express();
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
@@ -24,36 +25,40 @@ app.get('/api/v1/deaths', (request, response) => {
 });
 
 app.get('/api/v1/users/:id', (request, response) => {
-  database('users').where('id', request.params.id).select()
+  database('users')
+    .where('id', request.params.id)
+    .select()
     .then(users => {
       if (users.length) {
         response.status(200).json(users);
       } else {
         response.status(404).json({
           error: `Could not find project with id ${request.params.id}`
-        })
+        });
       }
     })
     .catch(error => {
-      response.status(500).json({ error })
-    })
-})
+      response.status(500).json({ error });
+    });
+});
 
 app.get('/api/v1/deaths/:id', (request, response) => {
-  database('deaths').where('id', request.params.id).select()
+  database('deaths')
+    .where('id', request.params.id)
+    .select()
     .then(deaths => {
       if (deaths.length) {
         response.status(200).json(deaths);
       } else {
         response.status(404).json({
           error: `Could not find project with id ${request.params.id}`
-        })
+        });
       }
     })
     .catch(error => {
-      response.status(500).json({ error })
-    })
-})
+      response.status(500).json({ error });
+    });
+});
 
 app.get('/api/v1/dates', (request, response) => {
   database('dates')
@@ -86,25 +91,27 @@ app.post('/api/v1/users', (request, response) => {
 });
 
 app.delete('/api/v1/users/:id/comment', (request, response) => {
-  database('users').where({ id: request.params.id }).select('comment')
+  database('users')
+    .where({ id: request.params.id })
+    .select('comment')
 
-    .then(response => {
-
-    })
-})
+    .then(response => {});
+});
 
 app.delete('/api/v1/users/:id', (request, response) => {
-  database('users').where({ id: request.params.id }).del()
+  database('users')
+    .where({ id: request.params.id })
+    .del()
     .then(response => {
-      response.status(201).json({ id })
+      response.status(201).json({ id });
     })
     .catch(error => {
-      response.status(500).json({ error })
-    })
-})
+      response.status(500).json({ error });
+    });
+});
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Who Are You is running on port ${app.get('port')}`);
 });
 
-module.exports = server;
+module.exports = { server, database };
