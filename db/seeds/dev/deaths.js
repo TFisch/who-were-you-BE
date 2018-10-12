@@ -11,12 +11,12 @@ deathData.forEach(death => {
 const userData = [
   {
     name: 'Cody Taft',
-    death_id: 5201,
+    death_id: 1,
     notes: 'He played the Mayor of Munchkin City in The Wizard of Oz'
   },
   {
     name: 'Tim Fischer',
-    death_id: 1362,
+    death_id: 2,
     notes:
       'He was a left-handed pitcher who won the World Series 5 times with the Yankees'
   }
@@ -40,7 +40,8 @@ const createDate = (knex, date) => {
             createDeath(knex, {
               person_name: death.deadPerson,
               day_id: day[0].id,
-              year: death.deathYear
+              year: death.deathYear,
+              deletable: false
             })
           );
         }
@@ -50,7 +51,7 @@ const createDate = (knex, date) => {
 };
 
 const createDeath = (knex, death) => {
-  return knex('deaths').insert(death);
+  return knex('deaths').insert(death, 'id');
 };
 
 exports.seed = (knex, Promise) => {
