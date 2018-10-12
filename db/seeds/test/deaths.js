@@ -57,9 +57,15 @@ exports.seed = (knex, Promise) => {
     .then(() => knex('dates').del())
     .then(() => {
       return Promise.all([
-        knex('dates').insert(dates),
-        knex('deaths').insert(deaths),
-        knex('users').insert(users)
+        knex('dates')
+          .insert(dates)
+          .then(() => {
+            return knex('deaths')
+              .insert(deaths)
+              .then(() => {
+                return knex('users').insert(users);
+              });
+          })
       ]);
     })
     .then(() => console.log('Seeding complete!'))
