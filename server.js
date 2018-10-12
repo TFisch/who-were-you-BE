@@ -24,6 +24,17 @@ app.get('/api/v1/deaths', (request, response) => {
     });
 });
 
+app.get('/api/v1/users', (request, response) => {
+  database('users')
+    .select()
+    .then(users => {
+      response.status(200).json(users);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
 app.get('/api/v1/users/:id', (request, response) => {
   database('users')
     .where('id', request.params.id)
@@ -72,9 +83,10 @@ app.get('/api/v1/dates', (request, response) => {
 });
 
 app.post('/api/v1/users', (request, response) => {
-  const userData = request.body;
-  for (const requiredParameter of ['name']['birth_day']['year']) {
-    if (!deathData[requiredParameter]) {
+  let userData = request.body;
+  console.log(userData);
+  for (let requiredParameter of ['name']['death_id']['notes']) {
+    if (!userData[requiredParameter]) {
       return response
         .status(422)
         .send({ error: `You're missing a "${requiredParameter}" property.` });
@@ -83,19 +95,30 @@ app.post('/api/v1/users', (request, response) => {
   database('users')
     .insert(userData, 'id')
     .then(user => {
-      response.status(201).json({ id: user[0] });
+      response.status(201).json({ user });
     })
     .catch(error => {
       response.status(500).json({ error });
     });
 });
 
-app.delete('/api/v1/users/:id/comment', (request, response) => {
-  database('users')
-    .where({ id: request.params.id })
-    .select('comment')
-
-    .then(response => {});
+app.post('/api/v1/deaths', (request, response) => {
+  let deathData = request.body;
+  for (let requiredParameter of ['person_name']['day_id']['year']) {
+    if (!deathData[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `You're missing a "${requiredParameter}" property.` });
+    }
+  }
+  database('deaths')
+    .insert(deathData, 'id')
+    .then(deadPerson => {
+      response.status(201).json({ deadPerson });
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
 });
 
 app.delete('/api/v1/users/:id', (request, response) => {
@@ -110,8 +133,20 @@ app.delete('/api/v1/users/:id', (request, response) => {
     });
 });
 
+app.delete('/api/v1/deaths/:id', (request, response) => {
+  database('deaths')
+    .where({ id: request.params.id })
+    .del()
+    .then(response => {
+      response.status(201).json({ id });
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
 const server = app.listen(app.get('port'), () => {
-  console.log(`Who Are You is running on port ${app.get('port')}`);
+  console.log(`Who Are You running on port ${app.get('port')}`);
 });
 
 module.exports = { server, database };
