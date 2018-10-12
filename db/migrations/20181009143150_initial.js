@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
       table.string('person_name');
       table.integer('day_id').unsigned();
       table.foreign('day_id').references('dates.id');
-      table.string('year');
+      table.integer('year');
 
       table.timestamps(true, true);
     }),
@@ -30,6 +30,7 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
+    knex.schema.dropTable('users'),
     knex.schema.dropTable('deaths'),
     knex.schema.dropTable('dates')
   ]);
