@@ -10,8 +10,8 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('deaths', table => {
       table.increments('id').primary();
       table.string('person_name');
-      table.integer('day_id').unsigned();
-      table.foreign('day_id').references('dates.id');
+      table.integer('date_id').unsigned();
+      table.foreign('date_id').references('dates.id');
       table.integer('year');
 
       table.timestamps(true, true);
