@@ -1,10 +1,11 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.table('deaths', table => {
-      table.string('deletable');
+      table.boolean('deletable');
     }),
     knex.schema.table('users', table => {
-      table.string('day_id');
+      table.integer('date_id').unsigned();
+      table.foreign('date_id').references('dates.id');
     })
   ]);
 };
@@ -15,7 +16,7 @@ exports.down = function(knex, Promise) {
       table.dropColumn('deletable');
     }),
     knex.schema.table('users', table => {
-      table.dropColumn('day_id');
+      table.dropColumn('date_id');
     })
   ]);
 };
