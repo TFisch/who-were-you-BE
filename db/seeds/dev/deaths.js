@@ -39,7 +39,7 @@ const createDate = (knex, date) => {
           deathPromises.push(
             createDeath(knex, {
               person_name: death.deadPerson,
-              day_id: day[0].id,
+              date_id: day[0].id,
               year: death.deathYear,
               deletable: false
             })
