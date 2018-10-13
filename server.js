@@ -84,8 +84,7 @@ app.get('/api/v1/dates', (request, response) => {
 
 app.post('/api/v1/users', (request, response) => {
   let userData = request.body;
-  console.log(userData);
-  for (let requiredParameter of ['name']['death_id']['notes']) {
+  for (let requiredParameter of ['name', 'death_id', 'notes', 'date_id']) {
     if (!userData[requiredParameter]) {
       return response
         .status(422)
@@ -104,7 +103,12 @@ app.post('/api/v1/users', (request, response) => {
 
 app.post('/api/v1/deaths', (request, response) => {
   let deathData = request.body;
-  for (let requiredParameter of ['person_name']['day_id']['year']) {
+  for (let requiredParameter of [
+    'person_name',
+    'date_id',
+    'year',
+    'deletable'
+  ]) {
     if (!deathData[requiredParameter]) {
       return response
         .status(422)
@@ -126,7 +130,7 @@ app.delete('/api/v1/users/:id', (request, response) => {
     .where({ id: request.params.id })
     .del()
     .then(response => {
-      response.status(201).json({ id });
+      response.status(201).json('deleted');
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -136,9 +140,10 @@ app.delete('/api/v1/users/:id', (request, response) => {
 app.delete('/api/v1/deaths/:id', (request, response) => {
   database('deaths')
     .where({ id: request.params.id })
+    .where({ deletable: true })
     .del()
     .then(response => {
-      response.status(201).json({ id });
+      response.status(201).send('deleted!');
     })
     .catch(error => {
       response.status(500).json({ error });
