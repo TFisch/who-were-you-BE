@@ -190,20 +190,6 @@ app.put('/api/v1/deaths/:id', (request, response) => {
     });
 });
 
-app.get('api/v1/deaths?deletable=true', (request, response) => {
-  let deleteBoolean = request.query.deletable.toLowerCase();
-  console.log('hi');
-  database('deaths')
-    .where('deletable' === deleteBoolean)
-    .select()
-    .then(response => {
-      response.status(200).send({ response });
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
-});
-
 const server = app.listen(app.get('port'), () => {
   console.log(`Who Are You running on port ${app.get('port')}`);
 });
