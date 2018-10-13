@@ -13,15 +13,28 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(express.static('public'));
 
-app.get('/api/v1/deaths', (request, response) => {
-  database('deaths')
-    .select()
-    .then(deaths => {
-      response.status(200).json(deaths);
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
+app.get('/api/v1/deaths', (req, res) => {
+  if (req.query.deletable) {
+    let death_deletable = req.query.deletable.toLowerCase();
+    database('deaths')
+      .where({ deletable: death_deletable })
+      .select()
+      .then(deaths => {
+        res.status(200).json(deaths);
+      })
+      .catch(error => {
+        res.status(500).json({ error });
+      });
+  } else {
+    database('deaths')
+      .select()
+      .then(deaths => {
+        res.status(200).json(deaths);
+      })
+      .catch(error => {
+        res.status(500).json({ error });
+      });
+  }
 });
 
 app.get('/api/v1/users', (request, response) => {
@@ -171,6 +184,20 @@ app.put('/api/v1/deaths/:id', (request, response) => {
     .update(death)
     .then(response => {
       response.status(200).send('Updated!');
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.get('api/v1/deaths?deletable=true', (request, response) => {
+  let deleteBoolean = request.query.deletable.toLowerCase();
+  console.log('hi');
+  database('deaths')
+    .where('deletable' === deleteBoolean)
+    .select()
+    .then(response => {
+      response.status(200).send({ response });
     })
     .catch(error => {
       response.status(500).json({ error });
