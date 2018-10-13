@@ -1,9 +1,12 @@
 language: node_js
 node_js:
-  - "8"
+- '8'
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c 'create database who_are_you_tests;' -U postgres
+- psql -c 'create database who_are_you_tests;' -U postgres
 notifications:
   email: false
+deploy:
+  api_key:
+    secure: FfJjUBzKF4fHBbzEFQrYsezjAikPwNr0ZAO41+DmK3n2pEyFv++eLB8MQpEBQmfEqbFV/hSg52cMqZIxGmn0A+4LsfNe0ZAbHC+crtBGFZ/RVe24njrt1BD4xmI6/WwT6mTTQIAfiDiQTO2pAI3dVQQcXV+tqYsbfhTQXiPOSr/2cdhYqSReA72DpeITfdTPO7UpIAjUh9eD31JQSDNrW0uusaK31AMUYKOoE55UKvN/zheLFCh7VSt8pHctuutiJ76WWlv/RTl3TyBiU2WOCP3of1AS9TE3ntzVHSy4wd6f3MTu/egylr2rRNKI5Uc/YlRah9VlEHr00sq840Q5zKNN0z/+HpPao88p/kLkB1QKPG4VMNd0tZ3CTaEKSAXJ8+QDVf0kdbYfLJB51mZfdIKzcIo/bivqdVBCKMp0A5POVGjigmlwRy8LKnu3QMgSpurPCPBwZ/URRv4uHnTnPa4SwPnrbUrmR91+OQ8FJZnqVRAlaXWLZFWarU98T/X4VsCh5ryQeybyHuYfHdbxMudnmRKAXtVueMlXwpsShlfLAxvT/hmNCeQ/lF5ySQklte7VvPH7ohmhmjMxNyT2UHseV6W45L905BLcjbiVsV9OX+nM8LRRK5Bq34XcvmRI8aVjPqA+jlAPSUGNIkH8yST5qoVv6owwYVSDnT+yozk=
