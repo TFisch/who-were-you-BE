@@ -20,12 +20,12 @@ describe('API Routes', () => {
       chai
         .request(server)
         .get('/api/v1/deaths')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('person_name');
-          response.body[0].should.have.property('date_id');
-          response.body[0].should.have.property('year');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('person_name');
+          res.body[0].should.have.property('date_id');
+          res.body[0].should.have.property('year');
           done();
         });
     });
@@ -36,11 +36,11 @@ describe('API Routes', () => {
       chai
         .request(server)
         .get('/api/v1/dates')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('day');
-          response.body[0].should.have.property('astrology_sign');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('day');
+          res.body[0].should.have.property('astrology_sign');
           done();
         });
     });
@@ -51,12 +51,12 @@ describe('API Routes', () => {
       chai
         .request(server)
         .get('/api/v1/users/1')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('death_id');
-          response.body[0].should.have.property('notes');
-          response.body[0].should.have.property('date_id');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('death_id');
+          res.body[0].should.have.property('notes');
+          res.body[0].should.have.property('date_id');
           done();
         });
     });
@@ -67,12 +67,12 @@ describe('API Routes', () => {
       chai
         .request(server)
         .get('/api/v1/deaths/1')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('person_name');
-          response.body[0].should.have.property('date_id');
-          response.body[0].should.have.property('year');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('person_name');
+          res.body[0].should.have.property('date_id');
+          res.body[0].should.have.property('year');
           done();
         });
     });
@@ -83,11 +83,11 @@ describe('API Routes', () => {
       chai
         .request(server)
         .get('/api/v1/dates')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('day');
-          response.body[0].should.have.property('astrology_sign');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('day');
+          res.body[0].should.have.property('astrology_sign');
           done();
         });
     });
@@ -98,13 +98,13 @@ describe('API Routes', () => {
       chai
         .request(server)
         .get('/api/v1/users')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.have.property('name');
-          response.body[0].should.have.property('death_id');
-          response.body[0].should.have.property('notes');
-          response.body[0].should.have.property('date_id');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('name');
+          res.body[0].should.have.property('death_id');
+          res.body[0].should.have.property('notes');
+          res.body[0].should.have.property('date_id');
           done();
         });
     });
@@ -124,7 +124,7 @@ describe('API Routes', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.should.be.json;
-          // res.body.should.have.property('user');
+          res.body.should.have.property('userId');
           done();
         });
     });
@@ -136,6 +136,7 @@ describe('API Routes', () => {
         .request(server)
         .post('/api/v1/deaths')
         .send({
+          id: 4,
           person_name: 'Kurtain Cobain',
           date_id: 2,
           year: 1994,
@@ -144,7 +145,7 @@ describe('API Routes', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.should.be.json;
-          // res.body.should.have.property('for');
+          res.body.should.have.property('deadPersonId');
           done();
         });
     });
@@ -155,10 +156,11 @@ describe('API Routes', () => {
       chai
         .request(server)
         .delete('/api/v1/deaths/1')
-        .end((err, response) => {
-          response.should.have.status(201);
-          response.should.be.json;
-          // response.body[0].should.be.a('object');
+        .end((err, res) => {
+          console.log(res);
+          res.should.have.status(201);
+          res.should.be.json;
+          // res.body[0].should.be.a('object');
           done();
         });
     });
@@ -169,10 +171,10 @@ describe('API Routes', () => {
       chai
         .request(server)
         .delete('/api/v1/users/1')
-        .end((err, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body[0].should.be.a('object');
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.be.a('object');
           done();
         });
     });

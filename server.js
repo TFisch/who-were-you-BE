@@ -93,8 +93,8 @@ app.post('/api/v1/users', (request, response) => {
   }
   database('users')
     .insert(userData, 'id')
-    .then(user => {
-      response.status(201).json({ user });
+    .then(userId => {
+      response.status(201).json({ userId });
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -117,8 +117,8 @@ app.post('/api/v1/deaths', (request, response) => {
   }
   database('deaths')
     .insert(deathData, 'id')
-    .then(deadPerson => {
-      response.status(201).json({ deadPerson });
+    .then(deadPersonId => {
+      response.status(201).json({ deadPersonId });
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -138,15 +138,19 @@ app.delete('/api/v1/users/:id', (request, response) => {
 });
 
 app.delete('/api/v1/deaths/:id', (request, response) => {
-  database('deaths')
-    .where({ id: request.params.id })
-    .where({ deletable: true })
-    .del()
-    .then(response => {
-      response.status(201).send('deleted!');
-    })
-    .catch(error => {
-      response.status(500).json({ error });
+  database('users')
+    .where('id', '!=', request.params.id)
+    .then(() => {
+      database('deaths')
+        .where({ id: request.params.id })
+        .where({ deletable: true })
+        .del()
+        .then(response => {
+          response.status(201).send('deleted!');
+        })
+        .catch(error => {
+          response.status(500).json({ error });
+        });
     });
 });
 
