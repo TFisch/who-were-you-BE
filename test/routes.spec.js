@@ -199,6 +199,24 @@ describe('API Routes', () => {
           done();
         });
     });
+  describe('PUT /api/v1/deaths/:id', () => {
+    it.skip('should update a specfic death', done => {
+      chai
+        .request(server)
+        .put('/api/v1/deaths/2')
+        .send({
+          person_name: 'Bools',
+          year: 3,
+          deletable: 'true',
+          date_id: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.be.a('object');
+          done();
+        });
+    });
   });
 
   describe('PUT /api/v1/deaths/:id', () => {

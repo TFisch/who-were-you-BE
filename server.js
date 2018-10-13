@@ -13,15 +13,28 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(express.static('public'));
 
-app.get('/api/v1/deaths', (request, response) => {
-  database('deaths')
-    .select()
-    .then(deaths => {
-      response.status(200).json(deaths);
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
+app.get('/api/v1/deaths', (req, res) => {
+  if (req.query.deletable) {
+    let death_deletable = req.query.deletable.toLowerCase();
+    database('deaths')
+      .where({ deletable: death_deletable })
+      .select()
+      .then(deaths => {
+        res.status(200).json(deaths);
+      })
+      .catch(error => {
+        res.status(500).json({ error });
+      });
+  } else {
+    database('deaths')
+      .select()
+      .then(deaths => {
+        res.status(200).json(deaths);
+      })
+      .catch(error => {
+        res.status(500).json({ error });
+      });
+  }
 });
 
 app.get('/api/v1/users', (request, response) => {
