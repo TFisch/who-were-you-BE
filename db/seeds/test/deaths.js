@@ -50,7 +50,7 @@ const users = [
   },
   {
     name: 'Kurt Kurtains',
-    death_id: 3,
+    death_id: null,
     notes: 'She made the greatest curtains that ever lived',
     date_id: 1
   }

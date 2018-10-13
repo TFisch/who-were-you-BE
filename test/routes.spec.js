@@ -111,7 +111,7 @@ describe('API Routes', () => {
   });
 
   describe('POST /api/v1/users', () => {
-    it.skip('Should have a HAPPY PATH', done => {
+    it('Should have a HAPPY PATH', done => {
       chai
         .request(server)
         .post('/api/v1/users')
@@ -131,7 +131,7 @@ describe('API Routes', () => {
   });
 
   describe('POST /api/v1/deaths', () => {
-    it.skip('Should have a HAPPY PATH', done => {
+    it('Should have a HAPPY PATH', done => {
       chai
         .request(server)
         .post('/api/v1/deaths')
@@ -152,13 +152,13 @@ describe('API Routes', () => {
   });
 
   describe('DELETE /api/v1/deaths/:id', () => {
-    it.skip('should delete a specfic death', done => {
+    it('should delete a specfic death', done => {
       chai
         .request(server)
-        .delete('/api/v1/deaths/1')
+        .delete('/api/v1/deaths/3')
         .end((err, res) => {
           console.log(res);
-          res.should.have.status(201);
+          res.should.have.status(200);
           res.should.be.json;
           // res.body[0].should.be.a('object');
           done();
@@ -170,8 +170,51 @@ describe('API Routes', () => {
     it.skip('should delete a specfic user', done => {
       chai
         .request(server)
-        .delete('/api/v1/users/1')
+        .delete('/api/v1/users/2')
         .end((err, res) => {
+          console.log(res);
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.be.a('object');
+          done();
+        });
+    });
+  });
+
+  describe('PUT /api/v1/users/:id', () => {
+    it.skip('should update a specfic user', done => {
+      chai
+        .request(server)
+        .put('/api/v1/users/2')
+        .send({
+          name: 'Bools',
+          death_id: 3,
+          notes: 'I can finally believe this girl makes curtains',
+          date_id: 1
+        })
+        .end((err, res) => {
+          console.log(res);
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.be.a('object');
+          done();
+        });
+    });
+  });
+
+  describe('PUT /api/v1/deaths/:id', () => {
+    it.skip('should update a specfic death', done => {
+      chai
+        .request(server)
+        .put('/api/v1/deaths/2')
+        .send({
+          person_name: 'Kurtain Cobain',
+          date_id: 2,
+          year: 2000,
+          deletable: true
+        })
+        .end((err, res) => {
+          console.log(res);
           res.should.have.status(200);
           res.should.be.json;
           res.body[0].should.be.a('object');
