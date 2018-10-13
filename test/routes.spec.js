@@ -111,7 +111,7 @@ describe('API Routes', () => {
   });
 
   describe('POST /api/v1/users', () => {
-    it('Should have a HAPPY PATH', done => {
+    it.skip('Should have a HAPPY PATH', done => {
       chai
         .request(server)
         .post('/api/v1/users')
@@ -131,7 +131,7 @@ describe('API Routes', () => {
   });
 
   describe('POST /api/v1/deaths', () => {
-    it('Should have a HAPPY PATH', done => {
+    it.skip('Should have a HAPPY PATH', done => {
       chai
         .request(server)
         .post('/api/v1/deaths')
@@ -151,7 +151,7 @@ describe('API Routes', () => {
   });
 
   describe('DELETE /api/v1/deaths/:id', () => {
-    it('should delete a specfic death', done => {
+    it.skip('should delete a specfic death', done => {
       chai
         .request(server)
         .delete('/api/v1/deaths/1')
@@ -165,7 +165,7 @@ describe('API Routes', () => {
   });
 
   describe('DELETE /api/v1/users/:id', () => {
-    it('should delete a specfic user', done => {
+    it.skip('should delete a specfic user', done => {
       chai
         .request(server)
         .delete('/api/v1/users/1')
