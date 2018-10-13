@@ -130,7 +130,7 @@ app.delete('/api/v1/users/:id', (request, response) => {
     .where({ id: request.params.id })
     .del()
     .then(response => {
-      response.status(201).json('deleted');
+      response.status(200).send('deleted');
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -138,19 +138,42 @@ app.delete('/api/v1/users/:id', (request, response) => {
 });
 
 app.delete('/api/v1/deaths/:id', (request, response) => {
+  database('deaths')
+    .where({ id: request.params.id })
+    .where({ deletable: true })
+    .del()
+    .then(response => {
+      response.status(200).send('deleted!');
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.put('/api/v1/users/:id', (request, response) => {
+  let user = request.body;
   database('users')
-    .where('id', '!=', request.params.id)
-    .then(() => {
-      database('deaths')
-        .where({ id: request.params.id })
-        .where({ deletable: true })
-        .del()
-        .then(response => {
-          response.status(201).send('deleted!');
-        })
-        .catch(error => {
-          response.status(500).json({ error });
-        });
+    .where({ id: request.params.id })
+    .update(user)
+    .then(response => {
+      response.status(200).send('Updated!');
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.put('/api/v1/deaths/:id', (request, response) => {
+  let death = request.body;
+  database('deaths')
+    .where({ id: request.params.id })
+    .where({ deletable: true })
+    .update(death)
+    .then(response => {
+      response.status(200).send('Updated!');
+    })
+    .catch(error => {
+      response.status(500).json({ error });
     });
 });
 
