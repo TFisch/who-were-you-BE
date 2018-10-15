@@ -9,10 +9,9 @@ const database = require('knex')(configuration);
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-app.use(cors());
-
 
 app.set('port', process.env.PORT || 3000);
+app.use(cors());
 
 app.use(express.static('public'));
 
