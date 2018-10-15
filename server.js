@@ -1,5 +1,5 @@
 const express = require('express');
-
+var cors = require('cors');
 const app = express();
 
 const environment = process.env.NODE_ENV || 'development';
@@ -8,6 +8,9 @@ const database = require('knex')(configuration);
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+
+app.use(cors());
+
 
 app.set('port', process.env.PORT || 3000);
 
