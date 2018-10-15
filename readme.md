@@ -106,8 +106,7 @@ This will generate an initial migration. You can edit this newly created file to
 
 
 
-### I. 
-**`/api/v1/deaths`**
+### I. **`/api/v1/deaths`**
 GET - Returns an array of all stored deaths.
 
 **Example Response**
