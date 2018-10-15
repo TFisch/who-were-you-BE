@@ -75,7 +75,7 @@ This will generate an initial migration. You can edit this newly created file to
 
 | Endpoint            | Request Type | Parameters  | Example Response
 |---------------------|:------------:|:-----------:| :----------------:
-| /api/v1/deaths      | GET          | -           | [I](#I)
+| /api/v1/deaths      | GET          | -           | [I](#I. **`/api/v1/deaths`**)
 | /api/v1/deaths/:id  | GET          | -           | II       
 | /api/v1/deaths      | POST         | "person_name", "year", "date_id", "deletable" | III                                  
 | /api/v1/deaths/:id  | DELETE       | -           | IV    
