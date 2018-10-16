@@ -67,6 +67,7 @@ app.get('/api/v1/users/:id', (request, response) => {
     });
 });
 
+// Maybe delete this one
 app.get('/api/v1/deaths/:id', (request, response) => {
   database('deaths')
     .where('id', request.params.id)
@@ -76,7 +77,29 @@ app.get('/api/v1/deaths/:id', (request, response) => {
         response.status(200).json(deaths);
       } else {
         response.status(404).json({
-          error: `Could not find project with id ${request.params.id}`
+          error: `Could not find any dead people that match the criteria of id: ${
+            request.params.id
+          }`
+        });
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+// Because we are using this one
+app.get('/api/v1/deaths/:date_id/:year', (request, response) => {
+  database('deaths')
+    .where('date_id', request.params.date_id)
+    .where('year', request.params.year)
+    .select()
+    .then(deaths => {
+      if (deaths.length) {
+        response.status(200).json(deaths);
+      } else {
+        response.status(404).json({
+          error: `Sorry no souls wanted to be associated with your body :(`
         });
       }
     })
@@ -90,6 +113,37 @@ app.get('/api/v1/dates', (request, response) => {
     .select()
     .then(dates => {
       response.status(200).json(dates);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/dates:id', (request, response) => {
+  database('dates')
+    .where('id', request.params.id)
+    .select()
+    .then(date => {
+      response.status(200).json(date);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/dates/:day', (request, response) => {
+  const spacedDay = request.params.day.replace(/_/, ' ');
+  database('dates')
+    .where('day', spacedDay)
+    .select()
+    .then(day => {
+      if (day.length) {
+        response.status(200).json(day[0].id);
+      } else {
+        response.status(404).json({
+          error: `Could not find anyone who died on ${request.params.id}`
+        });
+      }
     })
     .catch(error => {
       response.status(500).json({ error });
