@@ -9,6 +9,7 @@ const database = require('knex')(configuration);
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+
 app.set('port', process.env.PORT || 3010);
 // app.use(cors());
 
@@ -18,6 +19,9 @@ app.use((res, req, next) => {
     'https://who-were-you-app.herokuapp.com'
   );
 });
+
+
+
 
 app.use(express.static('public'));
 
