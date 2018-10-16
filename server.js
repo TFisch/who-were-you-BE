@@ -11,7 +11,17 @@ app.use(bodyParser.json());
 
 
 app.set('port', process.env.PORT || 3010);
-app.use(cors());
+// app.use(cors());
+
+app.use((res, req, next) => {
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    'https://who-were-you-app.herokuapp.com'
+  );
+});
+
+
+
 
 app.use(express.static('public'));
 
