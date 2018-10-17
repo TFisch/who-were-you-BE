@@ -10,7 +10,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.set('port', process.env.PORT || 3010);
-
 app.use(cors());
 
 app.use(express.static('public'));
@@ -195,10 +194,9 @@ app.post('/api/v1/deaths', (request, response) => {
 });
 
 app.delete('/api/v1/users/:id', (request, response) => {
-  const userId = parseInt(request.params.id);
   database('users')
+    .where({ id: request.params.id })
     .del()
-    .where({ id: userId })
     .then(response => {
       response.status(200).send('deleted');
     })
@@ -220,11 +218,11 @@ app.delete('/api/v1/deaths/:id', (request, response) => {
     });
 });
 
-app.patch('/api/v1/users/:id', (request, response) => {
-  let notes = request.body;
+app.put('/api/v1/users/:id', (request, response) => {
+  let user = request.body;
   database('users')
     .where({ id: request.params.id })
-    .update(notes)
+    .update(user)
     .then(response => {
       response.status(200).send('Updated!');
     })
