@@ -79,7 +79,7 @@ app.get('/api/v1/deaths/:id', (request, response) => {
         response.status(404).json({
           error: `Could not find any dead people that match the criteria of id: ${
             request.params.id
-            }`
+          }`
         });
       }
     })
@@ -119,7 +119,7 @@ app.get('/api/v1/dates', (request, response) => {
     });
 });
 
-app.get('/api/v1/dates:id', (request, response) => {
+app.get('/api/v1/dates/:id/id', (request, response) => {
   database('dates')
     .where('id', request.params.id)
     .select()
