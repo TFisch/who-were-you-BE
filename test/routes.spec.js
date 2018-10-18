@@ -141,6 +141,26 @@ describe('API Routes', () => {
     });
   });
 
+  describe('GET /api/v1/dates/:id/id', () => {
+    it('should have a happy path when matching a date', done => {
+      chai
+        .request(server)
+        .get('/api/v1/dates/1/id')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('day');
+          res.body[0].should.have.property('astrology_sign');
+          res.body[0].should.have.property('created_at');
+          res.body[0].should.have.property('updated_at');
+          done();
+        });
+    });
+  });
+
+
+
+
   describe('POST /api/v1/users', () => {
     it('Should have a HAPPY PATH', done => {
       chai
