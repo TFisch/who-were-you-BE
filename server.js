@@ -79,7 +79,7 @@ app.get('/api/v1/deaths/:id', (request, response) => {
         response.status(404).json({
           error: `Could not find any dead people that match the criteria of id: ${
             request.params.id
-          }`
+            }`
         });
       }
     })
@@ -88,7 +88,6 @@ app.get('/api/v1/deaths/:id', (request, response) => {
     });
 });
 
-// Because we are using this one
 app.get('/api/v1/deaths/:date_id/:year', (request, response) => {
   database('deaths')
     .where('date_id', request.params.date_id)
@@ -232,6 +231,7 @@ app.patch('/api/v1/users/:id', (request, response) => {
 });
 
 app.put('/api/v1/deaths/:id', (request, response) => {
+  console.log(request.body);
   let death = request.body;
   database('deaths')
     .where({ id: request.params.id })
