@@ -15,6 +15,7 @@ describe('API Routes', () => {
       });
     });
   });
+
   describe('GET /api/v1/deaths', () => {
     it('should return all of the dead people', done => {
       chai
@@ -77,6 +78,36 @@ describe('API Routes', () => {
         });
     });
   });
+
+  describe('GET /api/v1/deaths/:date_id/:year', () => {
+    it('should have a happy path when it has a match', done => {
+      chai
+        .request(server)
+        .get('/api/v1/deaths/1/1986')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.have.property('person_name');
+          res.body[0].should.have.property('date_id');
+          res.body[0].should.have.property('year');
+          done();
+        });
+    });
+
+    it('should have a sad path when there is no', done => {
+      chai
+        .request(server)
+        .get('/api/v1/deaths/2/1916')
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.should.be.json;
+
+          done();
+        });
+    });
+  });
+
+
 
   describe('GET /api/v1/dates', () => {
     it('should return all dates', done => {
@@ -153,13 +184,14 @@ describe('API Routes', () => {
 
   describe('DELETE /api/v1/deaths/:id', () => {
     it.skip('should delete a specfic death', done => {
+      console.log(server._events.request);
       chai
         .request(server)
-        .delete('/api/v1/deaths/3')
+        .delete('/api/v1/deaths/1')
         .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
-          // res.body[0].should.be.a('object');
+          res.body[0].should.be.a('object');
           done();
         });
     });
@@ -231,7 +263,6 @@ describe('API Routes', () => {
             deletable: true
           })
           .end((err, res) => {
-            console.log(res);
             res.should.have.status(200);
             res.should.be.json;
             res.body[0].should.be.a('object');
