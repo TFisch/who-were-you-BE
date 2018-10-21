@@ -232,11 +232,11 @@ describe('API Routes', () => {
     });
   });
 
-  describe('PUT /api/v1/users/:id', () => {
-    it.skip('should update a specfic user', done => {
+  describe('PATCH /api/v1/users/:id', () => {
+    it('PATCH /api/v1/users/:id HAPPY', done => {
       chai
         .request(server)
-        .put('/api/v1/users/2')
+        .patch('/api/v1/users/2')
         .send({
           name: 'Bools',
           death_id: 3,
@@ -245,9 +245,10 @@ describe('API Routes', () => {
         })
         .end((err, res) => {
           console.log(res);
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body[0].should.be.a('object');
+          res.should.have.status(204);
+          done();
+        });
+    });
           done();
         });
     });
