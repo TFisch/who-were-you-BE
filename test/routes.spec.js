@@ -45,6 +45,18 @@ describe('API Routes', () => {
           done();
         });
     });
+
+    it('should return all dates with astrology sign Cancer', () => {
+      chai
+        .request(server)
+        .get('/api/v1/dates/?astrology_sign=Cancer')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.be.a('array');
+          res.body.length.should.equal(2);
+        })
+    });
   });
 
   describe('GET /api/v1/users/:id', () => {
@@ -201,7 +213,6 @@ describe('API Routes', () => {
 
   describe('DELETE /api/v1/deaths/:id', () => {
     it.skip('should delete a specfic death', done => {
-      console.log(server._events.request);
       chai
         .request(server)
         .delete('/api/v1/deaths/1')
@@ -220,7 +231,6 @@ describe('API Routes', () => {
         .request(server)
         .delete('/api/v1/users/2')
         .end((err, res) => {
-          console.log(res);
           res.should.have.status(200);
           res.should.be.json;
           res.body[0].should.be.a('object');
@@ -241,7 +251,6 @@ describe('API Routes', () => {
           date_id: 1
         })
         .end((err, res) => {
-          console.log(res);
           res.should.have.status(204);
           done();
         });
