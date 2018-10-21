@@ -249,6 +249,16 @@ describe('API Routes', () => {
           done();
         });
     });
+
+    it('PATCH /api/v1/users/:id SAD', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/users/300')
+        .send({
+          name: 'Bingo',
+        })
+        .end((err, response) => {
+          response.should.have.status(422);
           done();
         });
     });
