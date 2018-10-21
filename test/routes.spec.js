@@ -46,7 +46,7 @@ describe('API Routes', () => {
         });
     });
 
-    it('should return all dates with astrology sign Cancer', () => {
+    it('should return all dates with astrology sign Cancer', done => {
       chai
         .request(server)
         .get('/api/v1/dates/?astrology_sign=Cancer')
@@ -55,6 +55,7 @@ describe('API Routes', () => {
           res.should.be.json;
           res.body.should.be.a('array');
           res.body.length.should.equal(2);
+          done();
         })
     });
   });
