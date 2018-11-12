@@ -9,32 +9,19 @@ This backend database is used to access a collection of famous people that died,
 
 ### Setting Up Your Postgres Database
 
-**1. Download Postgresql with `brew install postgres`**
-
-This will give us global access to our databases on our machine.
-
-
-**2. Run `psql` in your terminal**
+**1. Run `psql` in your terminal**
 
 psql is a terminal-based front-end to PostgreSQL. While you are running it locally you be able to create new databases as well as accessing, editing and deleting existing ones. We access the PostgreSQL by running this command.
 
-**3. Run `CREATE DATABASE [database name]` in your terminal**
+**2. Run `CREATE DATABASE [database name]` in your terminal**
 
 We have now initialized our database. 
 
-**4. Create a new directory, `cd` into it, and run `npm initial --yes`**
+**3. Create a new directory, `cd` into it, and run `npm initial --yes`**
 
 This creates our local directory. We still need Knex with Express to allow us to use Javascript for communicating with the backend.
 
-**5. Run the following commands in your terminal...**
-
-**`npm install -g knex`**
-**`npm install knex --save`**
-**`npm install pg --save`**
-
-Now that we have knex installed we need to configure our database.
-
-**6. Run ` knex init` in your terminal**
+**4. Run ` knex init` in your terminal**
 
 This is the file that you will use to configure your database. You will notice some boilerplate setup, but with some modifications you can better accommodate your project.
 
@@ -50,7 +37,7 @@ module.exports = {
 };
 ```
 
-**7. Run ` knex migrate:make initial` in your terminal**
+**5. Run ` knex migrate:make initial` in your terminal**
 
 This will generate an initial migration. You can edit this newly created file to better suit your schema layout. Use the command `knex migrate:latest` to run all of your migrations. For future adjustments to your schema, rather than continuing to edit the initial migration, you must create a new migration with the following command, `knex migrate:make [adjustment detail]`. **Editing past migration can cause errors!** Further documentation on building out tables can be found [here](https://knexjs.org/). 
 
