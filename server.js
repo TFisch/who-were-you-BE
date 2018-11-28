@@ -108,14 +108,25 @@ app.get('/api/v1/deaths/:date_id/:year', (request, response) => {
 });
 
 app.get('/api/v1/dates', (request, response) => {
-  database('dates')
-    .select()
-    .then(dates => {
-      response.status(200).json(dates);
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
+  if (request.query.astrology_sign) {
+    const sign = request.query.astrology_sign;
+
+    database('dates').where('astrology_sign', sign).select()
+      .then((signs) => {
+        if (!signs.length) {
+          return response.status(404).json({
+            error: `Could not find anyone who died with astrology sign ${sign}.`
+          });
+        }
+        return response.status(200).json(signs)
+      });
+  } else {
+    database('dates').select()
+      .then(dates => response.status(200).json(dates))
+      .catch(error => response.status(500).json({
+        error: 'Internal server error!'
+      }));
+  }
 });
 
 app.get('/api/v1/dates/:id/id', (request, response) => {
@@ -220,13 +231,20 @@ app.delete('/api/v1/deaths/:id', (request, response) => {
 app.patch('/api/v1/users/:id', (request, response) => {
   let user = request.body;
   database('users')
-    .where({ id: request.params.id })
+    .where('id', request.params.id)
     .update(user)
-    .then(response => {
-      response.status(200).send('Updated!');
+    .then(updated => {
+      if (!updated) {
+        return response.status(422).json({
+          error: 'Please provide a valid user id!'
+        });
+      }
+      return response.sendStatus(204);
     })
     .catch(error => {
-      response.status(500).json({ error });
+      response.status(500).json({
+        error: 'Internal server error!'
+      });
     });
 });
 
