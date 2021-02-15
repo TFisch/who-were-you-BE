@@ -158,9 +158,6 @@ describe('API Routes', () => {
     });
   });
 
-
-
-
   describe('POST /api/v1/users', () => {
     it('Should have a HAPPY PATH', done => {
       chai
@@ -232,11 +229,11 @@ describe('API Routes', () => {
     });
   });
 
-  describe('PUT /api/v1/users/:id', () => {
-    it.skip('should update a specfic user', done => {
+  describe('PATCH /api/v1/users/:id', () => {
+    it('PATCH /api/v1/users/:id HAPPY', done => {
       chai
         .request(server)
-        .put('/api/v1/users/2')
+        .patch('/api/v1/users/2')
         .send({
           name: 'Bools',
           death_id: 3,
@@ -245,50 +242,73 @@ describe('API Routes', () => {
         })
         .end((err, res) => {
           console.log(res);
+          res.should.have.status(204);
+          done();
+        });
+    });
+
+    it('PATCH /api/v1/users/:id SAD', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/users/300')
+        .send({
+          name: 'Bingo',
+        })
+        .end((err, response) => {
+          response.should.have.status(422);
+          done();
+        });
+    });
+
+    it('PATCH /api/v1/users/:id VERY SAD', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/users/bingo')
+        .send()
+        .end((err, response) => {
+          response.should.have.status(500);
+          done();
+        });
+    });
+  });
+
+  describe('PUT /api/v1/deaths/:id', () => {
+    it.skip('should update a specfic death', done => {
+      chai
+        .request(server)
+        .put('/api/v1/deaths/2')
+        .send({
+          person_name: 'Bools',
+          year: 3,
+          deletable: 'true',
+          date_id: 1
+        })
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
           res.body[0].should.be.a('object');
           done();
         });
     });
-    describe('PUT /api/v1/deaths/:id', () => {
-      it.skip('should update a specfic death', done => {
-        chai
-          .request(server)
-          .put('/api/v1/deaths/2')
-          .send({
-            person_name: 'Bools',
-            year: 3,
-            deletable: 'true',
-            date_id: 1
-          })
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body[0].should.be.a('object');
-            done();
-          });
-      });
-    });
+  });
 
-    describe('PUT /api/v1/deaths/:id', () => {
-      it.skip('should update a specfic death', done => {
-        chai
-          .request(server)
-          .put('/api/v1/deaths/2')
-          .send({
-            person_name: 'Kurtain Cobain',
-            date_id: 2,
-            year: 2000,
-            deletable: true
-          })
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body[0].should.be.a('object');
-            done();
-          });
-      });
+  describe('PUT /api/v1/deaths/:id', () => {
+    it.skip('should update a specfic death', done => {
+      chai
+        .request(server)
+        .put('/api/v1/deaths/2')
+        .send({
+          person_name: 'Kurtain Cobain',
+          date_id: 2,
+          year: 2000,
+          deletable: true
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body[0].should.be.a('object');
+          done();
+        });
     });
-  })
+  });
 })

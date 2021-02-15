@@ -220,13 +220,20 @@ app.delete('/api/v1/deaths/:id', (request, response) => {
 app.patch('/api/v1/users/:id', (request, response) => {
   let user = request.body;
   database('users')
-    .where({ id: request.params.id })
+    .where('id', request.params.id)
     .update(user)
-    .then(response => {
-      response.status(200).send('Updated!');
+    .then(updated => {
+      if (!updated) {
+        return response.status(422).json({
+          error: 'Please provide a valid user id!'
+        });
+      }
+      return response.sendStatus(204);
     })
     .catch(error => {
-      response.status(500).json({ error });
+      response.status(500).json({
+        error: 'Internal server error!'
+      });
     });
 });
 
